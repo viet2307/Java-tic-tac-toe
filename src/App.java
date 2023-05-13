@@ -66,16 +66,15 @@ public class App {
     }
 
     private static void playerTurn(char[][] board) {
-        try (Scanner sc = new Scanner(System.in)) {
-            System.out.println("Please choose your placement (1-9)");
-            int pos = sc.nextInt();
-            if(!validMove(pos, board)) {
-                printBoard(board);
-                System.out.println("The position has already been occupied");
-                playerTurn(board);
-            }
-            placePiece(pos, board, "player");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please choose your placement (1-9)");
+        int pos = sc.nextInt();
+        if(!validMove(pos, board)) {
+            printBoard(board);
+            System.out.println("The position has already been occupied");
+            playerTurn(board);
         }
+        placePiece(pos, board, "player");
     }
 
     private static void botTurn(char[][] board) {
