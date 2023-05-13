@@ -141,16 +141,16 @@ public class App {
     }
 
     private static String checkWinner() {
-        List topRow = Arrays.asList(1, 2, 3);
-        List middleRow = Arrays.asList(4, 5, 6);
-        List BottomRow = Arrays.asList(7, 8, 9);
-        List leftCol = Arrays.asList(1, 4, 7);
-        List midCol = Arrays.asList(2, 5, 8);
-        List rightCol = Arrays.asList(3, 6, 9);
-        List cross1 = Arrays.asList(1, 5, 9);
-        List cross2 = Arrays.asList(3, 5, 7);
+        List<Integer> topRow = Arrays.asList(1, 2, 3);
+        List<Integer> middleRow = Arrays.asList(4, 5, 6);
+        List<Integer> BottomRow = Arrays.asList(7, 8, 9);
+        List<Integer>leftCol = Arrays.asList(1, 4, 7);
+        List<Integer>midCol = Arrays.asList(2, 5, 8);
+        List<Integer>rightCol = Arrays.asList(3, 6, 9);
+        List<Integer>cross1 = Arrays.asList(1, 5, 9);
+        List<Integer>cross2 = Arrays.asList(3, 5, 7);
 
-        List<List> winCon = new ArrayList<List>();
+        List<List<Integer>> winCon = new ArrayList<List<Integer>>();
         winCon.add(topRow);
         winCon.add(middleRow);
         winCon.add(BottomRow);
@@ -160,7 +160,7 @@ public class App {
         winCon.add(cross1);
         winCon.add(cross2);
 
-        for(List l : winCon) {
+        for(List<Integer>l : winCon) {
             if(playerPos.containsAll(l)) return "Congratulation, you won!!";
             if(botPos.containsAll(l)) return "Too bad, you lost.";
             if(playerPos.size() + botPos.size() == 9) return "Game is tied.";
