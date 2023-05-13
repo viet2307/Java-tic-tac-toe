@@ -6,8 +6,6 @@ import java.util.Scanner;
 
 public class TicTacToe {
 
-    static ArrayList<Integer> playerPos = new ArrayList<>();
-    static ArrayList<Integer> botPos = new ArrayList<>();
     static State ai;
     public static void main(String[] args) throws Exception {
         char[][] board = {{' ', '|', ' ', '|', ' '},
@@ -20,21 +18,23 @@ public class TicTacToe {
 		ai.learn();
 
         State current = ai;
-        boolean player = State.playsAsMin;
+        boolean player = !State.playsAsMin;
         while(true) {
             if(player) {
                 int[] pos = playerTurn(board, current);
                 board[pos[0]][pos[1]] = player ? 'X' : 'O';
                 current = current.children[pos[0]][pos[1]];
+                player = false;
             } else {
                 current = current.getChildWithValue();
 				board = current.copyField();
+                player = true;
             }
             printBoard(board);
-            if(checkWinner()) {
+            if(checkWinner(board)) {
                 System.out.println(player == true ? "You lost!!" : "You won!!!");
                 break;
-            } else if (fieldFull()) {
+            } else if (fieldFull(board)) {
                 System.out.println("Game tied");
                 break;
             }
@@ -88,17 +88,6 @@ public class TicTacToe {
         }
         int[] indice = placePiece(pos, board, "player");
         return indice;
-    }
-
-    private static void botTurn(char[][] board) {
-        Random rand = new Random();
-        while(true) {
-            int botMove = rand.nextInt(9) +1;
-            if(validMove(botMove, board)) {
-                placePiece(botMove, board, "bot");
-                break;
-            }
-        }
     }
 
     public static void printBoard(char[][] board) {
@@ -158,36 +147,7 @@ public class TicTacToe {
                 System.out.println("Error placement.\nPlease enter placement from 1-9");
                 break;
         }
-        if(user.equals("player")) playerPos.add(pos);
-        if(user.equals("bot")) botPos.add(pos);
         return result;
-    }
-
-    public static boolean checkWinner() {
-        List topRow = Arrays.asList(1, 2, 3);
-        List middleRow = Arrays.asList(4, 5, 6);
-        List BottomRow = Arrays.asList(7, 8, 9);
-        List leftCol = Arrays.asList(1, 4, 7);
-        List midCol = Arrays.asList(2, 5, 8);
-        List rightCol = Arrays.asList(3, 6, 9);
-        List cross1 = Arrays.asList(1, 5, 9);
-        List cross2 = Arrays.asList(3, 5, 7);
-
-        List<List> winCon = new ArrayList<List>();
-        winCon.add(topRow);
-        winCon.add(middleRow);
-        winCon.add(BottomRow);
-        winCon.add(leftCol);
-        winCon.add(midCol);
-        winCon.add(rightCol);
-        winCon.add(cross1);
-        winCon.add(cross2);
-
-        for(List l : winCon) {
-            if(playerPos.containsAll(l)) return true;
-            if(botPos.containsAll(l)) return true;
-        }
-        return false;
     }
 
     public static boolean checkWinner(char[][] board) {
@@ -210,10 +170,6 @@ public class TicTacToe {
 		}
 
 		return false;
-    }
-
-    private static boolean fieldFull() {
-        return playerPos.size() + botPos.size() == 9;
     }
 
     public static boolean fieldFull(char[][] board) {
