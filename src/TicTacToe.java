@@ -74,16 +74,17 @@ public class TicTacToe {
     }
 
     private static int[] playerTurn(char[][] board, State current) {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Please choose your placement (1-9)");
-            int pos = sc.nextInt();
-            if(!validMove(pos, board)) {
-                printBoard(board);
-                System.out.println("The position has already been occupied");
-                playerTurn(board, current);
-            }
-            int[] indice = placePiece(pos, board, "player");
-            return indice;
+        @SuppressWarnings("unused")
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please choose your placement (1-9)");
+        int pos = sc.nextInt();
+        while(!validMove(pos, board)) {
+            printBoard(board);
+            System.out.println("The position has already been occupied");
+            pos = sc.nextInt();
+        }
+        int[] indice = placePiece(pos, board, "player");
+        return indice;
     }
 
     public static void printBoard(char[][] board) {
